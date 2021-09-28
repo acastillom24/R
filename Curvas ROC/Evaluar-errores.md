@@ -10,12 +10,12 @@
   \frac{VP}{VP + FP}
   $$
 
-- Sensibilidad: Llamada también Recall.
+- Sensibilidad: Llamada también Recall, es la capacidad que tiene la prueba para detectar a los que verdaderamente están enfermos.
   $$
   \frac{VP}{VP + FN}
   $$
 
-- Especificidad: Es la tasa negativa verdadera.
+- Especificidad: Es la tasa negativa verdadera, es la capacidad que tiene la prueba para detectar a los que no están enfermos.
   $$
   \frac{VN}{VN+FP}
   $$
