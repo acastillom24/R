@@ -1,6 +1,6 @@
+# https://www.listendata.com/2019/06/create-infographics-with-r.html?m=1
 
-
-# Instalación de paquetes -------------------------------------------------
+# InstalaciÃ³n de paquetes -------------------------------------------------
 install.packages("devtools")
 install.packages("waffle")
 install.packages("remotes")
