@@ -1,3 +1,11 @@
+https://cran.r-project.org/web/packages/broom/vignettes/broom.html
+https://www.rdocumentation.org/packages/data.table/versions/1.8.8/topics/fread
+https://spark.apache.org/docs/latest/sparkr.html
+https://spark.rstudio.com/
+https://arrow.apache.org/docs/python/parquet.html
+https://databricks.com/glossary/what-is-parquet
+
+
 https://manualestutor.com/programacion/expresiones-regulares-avanzadas-en-r/
 https://learntutorials.net/es/r/topic/9743/sintaxis-de-expresiones-regulares-en-r
 https://labscn-unalmed.github.io/programacion-R/clases/clase10.html
