@@ -1,12 +1,17 @@
-
+# Info from:
+# https://www.listendata.com/2019/06/create-infographics-with-r.html?m=1
 
 # Instalación de paquetes -------------------------------------------------
-install.packages("devtools")
-install.packages("waffle")
-install.packages("remotes")
+# install.packages("devtools")
+# install.packages("waffle")
+# install.packages("remotes")
 
+
+# Carga de bibliotecas ---------------------------------------------------- 
 library(dplyr)
 library(ggplot2)
+
+
 
 # Paquete waffle ----------------------------------------------------------
 library(waffle)
