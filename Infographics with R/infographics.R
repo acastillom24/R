@@ -1,12 +1,25 @@
+# Info from:
+# https://www.listendata.com/2019/06/create-infographics-with-r.html?m=1
 
+# Instalacion de paquetes -------------------------------------------------
+# install.packages("devtools")
+# install.packages("waffle")
+# install.packages("remotes")
 
-# Instalación de paquetes -------------------------------------------------
+=======
+# https://www.listendata.com/2019/06/create-infographics-with-r.html?m=1
+
+# InstalaciÃ³n de paquetes -------------------------------------------------
 install.packages("devtools")
 install.packages("waffle")
 install.packages("remotes")
 
+
+# Carga de bibliotecas ---------------------------------------------------- 
 library(dplyr)
 library(ggplot2)
+
+
 
 # Paquete waffle ----------------------------------------------------------
 library(waffle)
@@ -92,4 +105,3 @@ waffle(c(50, 30, 15, 5), rows = 5, use_glyph = "music", glyph_size = 6)
 waffle::fa_grep("female")
 
 devtools::install_github("JohnCoene/echarts4r.assets")
-
