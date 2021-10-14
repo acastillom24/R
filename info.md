@@ -1,4 +1,5 @@
 Shiny:
+
 https://shiny.rstudio.com/
 https://shiny.rstudio.com/tutorial/
 https://engineering-shiny.org/foreword.html
@@ -12,12 +13,14 @@ https://rweekly.org/
 https://r-podcast.org/
 
 Getting started {shiny}:
+
 https://github.com/hadley/mastering-shiny
 https://ourcodingclub.github.io/tutorials/shiny/
 https://laderast.github.io/gradual_shiny/
 https://github.com/rstudio-conf-2020/shiny-start-finish
 
 Putting {shiny} into production
+
 https://www.rstudio.com/resources/rstudioconf-2019/shiny-in-production-principles-practices-and-tools/
 https://kellobri.github.io/shiny-prod-book/
 https://github.com/ThinkR-open/engineering-shiny-book/issues
