@@ -3,6 +3,7 @@ Shiny:
 https://shiny.rstudio.com/  
 https://shiny.rstudio.com/tutorial/  
 https://github.com/rstudio-education/shiny.rstudio.com-tutorial  
+https://shiny.rstudio.com/gallery/  
 https://engineering-shiny.org/foreword.html  
 
 https://shinydevseries.com/post/episode-2-golem/  
@@ -25,6 +26,18 @@ Putting {shiny} into production
 https://www.rstudio.com/resources/rstudioconf-2019/shiny-in-production-principles-practices-and-tools/
 https://kellobri.github.io/shiny-prod-book/
 https://github.com/ThinkR-open/engineering-shiny-book/issues
+
+Otros:  
+https://gallery.shinyapps.io/google-charts/  
+https://shiny.rstudio.com/articles/shinyapps.html  
+http://ncss-tech.github.io/stats_for_soil_survey/presentations/4_exploratory_data_analysis/shiny_app_pres.html#1  
+https://uomresearchit.github.io/r-shiny-course/  
+https://github.com/rstudio/shiny-examples/blob/master/gallery-URLs.txt  
+http://shinyapps.dreamrs.fr/  
+https://towardsdatascience.com/how-to-publish-a-shiny-app-example-with-shinyapps-io-ec6c6604d8  
+http://rstudio-pubs-static.s3.amazonaws.com/263219_f1f0e3c27d2444f19304e254de6626b0.html  
+https://shiny.rstudio.com/articles/bookmarking-state.html  
+https://shiny.rstudio.com/gallery/  
 
 
 
