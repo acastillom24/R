@@ -2,6 +2,7 @@ Shiny:
 
 https://shiny.rstudio.com/  
 https://shiny.rstudio.com/tutorial/  
+https://github.com/rstudio-education/shiny.rstudio.com-tutorial  
 https://engineering-shiny.org/foreword.html  
 
 https://shinydevseries.com/post/episode-2-golem/  
