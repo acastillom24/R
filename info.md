@@ -1,16 +1,16 @@
 Shiny:
 
-https://shiny.rstudio.com/
-https://shiny.rstudio.com/tutorial/
-https://engineering-shiny.org/foreword.html
+https://shiny.rstudio.com/  
+https://shiny.rstudio.com/tutorial/  
+https://engineering-shiny.org/foreword.html  
 
-https://shinydevseries.com/post/episode-2-golem/
-https://thinkr-open.github.io/golem/
-https://github.com/ThinkR-open/golem
-https://divadnojnarg.github.io/
-https://thinkr-open.github.io/rstudioconf2019/
-https://rweekly.org/
-https://r-podcast.org/
+https://shinydevseries.com/post/episode-2-golem/  
+https://thinkr-open.github.io/golem/  
+https://github.com/ThinkR-open/golem  
+https://divadnojnarg.github.io/  
+https://thinkr-open.github.io/rstudioconf2019/  
+https://rweekly.org/  
+https://r-podcast.org/  
 
 Getting started {shiny}:
 
