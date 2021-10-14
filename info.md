@@ -2,6 +2,8 @@ Shiny:
 
 https://shiny.rstudio.com/  
 https://shiny.rstudio.com/tutorial/  
+https://www.rstudio.com/products/shiny/shiny-server/  
+https://www.rstudio.com/resources/webinars/  
 https://github.com/rstudio-education/shiny.rstudio.com-tutorial  
 https://shiny.rstudio.com/gallery/  
 https://engineering-shiny.org/foreword.html  
