@@ -1,0 +1,30 @@
+---
+title: "Prueba de Grubbs - Grubbs's test"
+author: "alin.castillo@unmsm.edu.pe"
+#date: "13/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Info from:
+- [Wiki](https://es.abcdef.wiki/wiki/Grubbs's_test)
+- [DataCamp](https://www.youtube.com/watch?v=kc9O5XfV2pc)
+
+## Objetivo:
+- Detectar valores atipicos en datos univariados.
+
+## Supuesto: 
+- Que el conjunto de datos proviene de una poblacion distribuida normalmente.
+
+**Nota:** La prueba de Grubbs detecta un valor atípico a la vez, este valor se elimina y se repite hasta que no se detectan valores atipicos. Se basa en la mayor desviación absoluta de la media de la muestra en unidades de la desviación estándar de la muestra.
+
+## Hipótesis:
+H_0: no hay valores atípicos en el conjunto de datos.
+H_a: hay exactamente un valor atípico en el conjunto de datos.
+
+## Estadística:
+
+$$G = \frac{|Y_i - \bar{Y}|}{s}$$

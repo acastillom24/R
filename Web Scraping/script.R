@@ -32,20 +32,6 @@ remDr$navigate("")
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Install the rvest package
 
 library(rvest)
