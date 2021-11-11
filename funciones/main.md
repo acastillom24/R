@@ -1,5 +1,5 @@
 ## Lista de funciones
-1. Formatear código SQL
+1. Formatear código SQL  
 1.1. Función
 ```R
 SQL_format <- function(x){
@@ -19,7 +19,7 @@ SELECT *
 
 SQL_format(x = query)
 ```
-Resultado
+1.3. Resultado
 ```
 [1] "SELECT * FROM TRON2000.A2000030 WHERE APELLIDOS = 'CASTILLO';"
 ```
