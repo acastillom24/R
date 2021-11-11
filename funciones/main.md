@@ -1,7 +1,7 @@
 ## Lista de funciones
-1. Formatear código SQL  
+### Formatear código SQL  
 
-1.1. Función
+1.1 Función
 ```R
 SQL_format <- function(x){
   require(stringr)
@@ -9,7 +9,7 @@ SQL_format <- function(x){
   return(x)
 }
 ```
-1.2. Ejemplo
+1.2 Ejemplo
 ```R
 query <- 
 "
@@ -20,7 +20,7 @@ SELECT *
 
 SQL_format(x = query)
 ```
-1.3. Resultado
+1.3 Resultado
 ```
 [1] "SELECT * FROM TRON2000.A2000030 WHERE APELLIDOS = 'CASTILLO';"
 ```
