@@ -13,3 +13,8 @@ update.packages(ask = FALSE)
 remotes::install_version("ggplot2", version = "0.9.1")
 devtools::install_version("ggplot2", version = "0.9.1")
 ```
+
+# Correr un file .r desde la consola
+```
+Rscript.exe c:\scripts\SayHi.r
+```
