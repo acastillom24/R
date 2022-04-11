@@ -1,1 +1,1 @@
-# R
+Repositorio personal para el desarrollo de técnicas estadísticas con el lenguaje de programación R.
