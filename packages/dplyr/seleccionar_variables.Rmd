@@ -1,0 +1,63 @@
+---
+title: "Seleccionar variables o columnas con el package dplyr"
+author: Alin Castillo (alincastillo1995@gmail.com)
+linkcolor: blue
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\tableofcontents
+
+## Carga de bibliotecas
+```{r warning=F, message=F}
+library(dplyr)
+```
+
+## Carga de los datos
+```{r}
+data(iris)
+```
+
+## Seleccionar variables que continen algún nombre en específico
+```{r}
+iris %>% 
+  select(contains("sepal")) %>% 
+  head()
+```
+
+## Seleccionar variables que empienzen por un nombre en específico
+```{r}
+iris %>% 
+  select(starts_with("petal")) %>% 
+  head()
+```
+
+## Seleccionar variables por nombre o posición
+```{r}
+iris %>% 
+  select(Petal.Length, Petal.Width) %>% 
+  head()
+
+iris %>% 
+  select(3, 4) %>% 
+  head()
+```
+
+## Seleccionar variables por nombre o posición menos algúnas
+```{r}
+iris %>% 
+  select(c(-Petal.Length, -Petal.Width)) %>% 
+  head()
+
+iris %>% 
+  select(c(-3, -4)) %>% 
+  head()
+```
+
+## Otras formas de seleccionar variables
+**ends_with()** : Coincidencia por nombre al final  
+**matches()** : Coincidencia por expresión regular  
+**num_range()** : Coincidencia por rango

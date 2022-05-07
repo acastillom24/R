@@ -1,0 +1,52 @@
+---
+title: "Ordenar datos con el package dplyr"
+author: Alin Castillo (alincastillo1995@gmail.com)
+linkcolor: blue
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\tableofcontents
+
+## Carga de bibliotecas
+```{r warning=F, message=F}
+library(dplyr)
+```
+
+## Carga de los datos
+```{r}
+data(iris)
+```
+
+## Ordenar los datos por una variable
+```{r}
+iris %>% 
+  arrange(Sepal.Width) %>% 
+  head()
+```
+
+## Ordenar los datos por una variable de forma descendente
+```{r}
+iris %>% 
+  arrange(desc(Sepal.Width)) %>% 
+  head()
+```
+
+## Ordenar por mas de una variable
+```{r}
+iris %>% 
+  arrange(desc(Sepal.Width), Petal.Length) %>% 
+  head()
+```
+
+## Ordenar agrupando por cierta variable y ordenando por otra
+```{r}
+iris %>% 
+  group_by(Species) %>% 
+  summarise(media = mean(Sepal.Length)) %>% 
+  arrange(desc(media)) %>% 
+  head()
+```
