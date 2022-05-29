@@ -1,2 +1,5 @@
+# Programación funcional
+
 Info from:
-	[The Joy of Functional Programming (Hadley Wickham)](https://www.youtube.com/watch?v=bzUmK0Y07ck)
+
+- [The Joy of Functional Programming (Hadley Wickham)](https://www.youtube.com/watch?v=bzUmK0Y07ck)
