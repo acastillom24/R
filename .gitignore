@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+ShinyApp.Rproj
 README.html
 R.Rproj
 population-pyramid.Rproj
