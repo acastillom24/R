@@ -1,0 +1,33 @@
+---
+title: "Foro Nro. 1"
+subtitle: "**Crecimiento y desarrollo económico**"
+author: ", Diego Armando"
+date: "`r Sys.Date()`"
+fontsize: 12pt
+linestretch: "1.5"
+geometry: margin=2.5cm
+classoption: a4paper
+bibliography: referencias.bib
+output:
+    pdf_document:
+        toc: yes
+        number_sections: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\tableofcontents
+
+# Título 1
+## Subtitulo 1
+
+Aqui empleamos una cita para mostrarla al final \cite{oms_2017}
+
+# Título 2
+## Subtitulo 2
+
+
+\bibliography{referencias.bib}
+\bibliographystyle{plain}
