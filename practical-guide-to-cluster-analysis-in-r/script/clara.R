@@ -26,14 +26,13 @@ numClusters(data = df, xintercept = 5)
 library(cluster)
 library(factoextra)
 
-fviz_nbclust(df, pam, method = "silhouette") +
+fviz_nbclust(df, clara, method = "silhouette")+
   theme_classic()
 
 # Formación de los clusters
 set.seed(123)
-pam.res <- pam(
-  x = df, 
-  k = 2)
+clara.res <- clara(x = df, k = 2, samples = 50, pamLike = TRUE)
+print(clara.res)
 
 # Calculo de la mediana para cada variable de los datos originales
 aggregate(df, by=list(cluster=pam.res$cluster), mean)
@@ -42,9 +41,9 @@ aggregate(df, by=list(cluster=pam.res$cluster), mean)
 dd <- cbind(USArrests, cluster = pam.res$cluster)
 
 # Grafico de los clusters
-fviz_cluster(pam.res,
+fviz_cluster(clara.res,
              palette = c("#00AFBB", "#FC4E07"), # color palette
              ellipse.type = "t", # Concentration ellipse
-             repel = TRUE, # Avoid label overplotting (slow)
+             geom = "point", pointsize = 1,
              ggtheme = theme_classic()
 )
