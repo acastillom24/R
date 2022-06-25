@@ -1,0 +1,307 @@
+---
+title: "Semana 13"
+author: "Daniel Gavidia"
+date: "31/05/2022"
+output: pdf_document
+---
+
+```{r,echo=FALSE,include=FALSE}
+library(haven)     #PAQUETE PARA LEER DATOS EN SPSS
+library(survey)    #PAQUETE PARA ANALIZAR MUESTRAS COMPLEJAS
+library(tidyverse) #PAQUETE PARA MODIFICAR DATOS, RESUMIR TABLAS, CREAR VARIABLES, ETC.
+library(readxl)    #PAQUETE PARA LEER ARCHIVOS EN EXCEL
+library(knitr)
+library(kableExtra)
+#-------------------------------------*
+options(scipen=999)
+#-------------------------------------*
+#dir.ubigeo <- "E:\\OneDrive - Universidad de San Martin de Porres\\Datos\\UBIGEO_2019.xlsx" #file.choose()
+maindir <- 'E:/OneDrive - Universidad de San Martin de Porres/Datos/'
+#-------------------------------------*
+#RUTAS DE TRABAJO
+#-------------------------------------*
+subdir.caract_UA1 <- c("/ENCUESTA NACIONAL AGROPECUARIA/2019/701-Modulo1529/01_Cap100_1.sav")
+subdir.caract_UA2 <- c("/ENCUESTA NACIONAL AGROPECUARIA/2019/701-Modulo1529/01_Cap100_2.sav")
+subdir.caract_financieras <- c("/ENCUESTA NACIONAL AGROPECUARIA/2019/701-Modulo1545/17_Cap900.sav")
+#----*
+subdir.sup_cosech <- c("/ENCUESTA NACIONAL AGROPECUARIA/2019/701-Modulo1530/02_Cap200ab.sav")
+subdir.costo_cosech <- c("/ENCUESTA NACIONAL AGROPECUARIA/2019/701-Modulo1536/08_Cap200e.sav")
+subdir.costo_prduccion <- c("/ENCUESTA NACIONAL AGROPECUARIA/2019/701-Modulo1546/18_Cap1000.sav")
+subdir.prod_cosech <- c("/ENCUESTA NACIONAL AGROPECUARIA/2019/701-Modulo1533/05_Cap200b.sav")
+subdir.sup_cultivada <- c("/ENCUESTA NACIONAL AGROPECUARIA/2019/701-Modulo1549/21_Cap1200a.sav")
+subdir.uso_tierra <- c("/ENCUESTA NACIONAL AGROPECUARIA/2019/701-Modulo1550/22_Cap1200a_1.sav")
+```
+
+
+```{r,echo=FALSE,include=FALSE}
+#CARGANDO TABLA DE DATOS
+#datos_ubigeo  <- read_excel(dir.ubigeo)   
+CAR_UA1       <- read_sav(paste0(maindir,subdir.caract_UA1)) #%>% filter(CCDD=="09")
+CAR_UA2       <- read_sav(paste0(maindir,subdir.caract_UA2))#%>% filter(CCDD=="09")
+caract_financieras <- read_sav(paste0(maindir,subdir.caract_financieras)) #%>% filter(CCDD=="09")
+#--------------*
+costo_cosech  <- read_sav(paste0(maindir,subdir.costo_cosech)) #%>% filter(CCDD=="09")
+sup_cosechada <- read_sav(paste0(maindir,subdir.sup_cosech)) #%>% filter(CCDD=="09")
+prod_cosech   <- read_sav(paste0(maindir,subdir.prod_cosech)) #%>% filter(CCDD=="09")
+s.cultivada   <- read_sav(paste0(maindir,subdir.sup_cultivada)) #%>% filter(CCDD=="09")
+uso_tierra    <- read_sav(paste0(maindir,subdir.uso_tierra)) #%>% filter(CCDD=="09")
+costo_produccion    <- read_sav(paste0(maindir,subdir.costo_prduccion)) #%>% filter(CCDD=="09")
+```
+
+Análisis de las dimensiones de las tablas de datos
+```{r,include= FALSE, echo=FALSE}
+colnames(CAR_UA1) 
+colnames(CAR_UA2) 
+
+#HALLANDO DUPLICADOS
+dim(CAR_UA1) #dimensiones de una matriz de datos
+dim(CAR_UA2) #dimensiones de una matriz de datos
+#------------
+temp_1 <- dim(CAR_UA1 %>% distinct(ANIO,CCDD,CCPP,CCDI,CONGLOMERADO,NSELUA,UA))
+temp_2 <- dim(CAR_UA2 %>% distinct(ANIO,CCDD,CCPP,CCDI,CONGLOMERADO,NSELUA,UA))
+#-------------
+print(c(temp_1,temp_2))
+```
+
+Podemos ver que el número de unidades agropecuarias (UA) de la tabla de datos CAR_UA1 es `r temp_1` y el número de undidades agropecuarias (UA) de la tabla CAR_UA2 es `r temp_2`. Como CAR_UA2 tiene menos UA, esto indica que CAR_UA2 podría ser un subconjunto de la tabla CAR_UA1. Además, se observa que la tabla CAR_UA2 tiene más filas, esto es porque se ecuentra a nivel de parcela.
+
+Para poder identificar cuántas veces se duplica el ID de una unidad agropecuaria (el cual está compuesto por las variables **ANIO,CCDD,CCPP,CCDI,CONGLOMERADO,NSELUA,UA**) utilizamos el siguiente código.
+
+```{r}
+#HALLANDO DUPLICADOS
+CAR_UA2 <- CAR_UA2 %>% 
+           group_by(ANIO,CCDD,CCPP,CCDI,CONGLOMERADO,NSELUA,UA) %>% 
+           mutate(dup = n()) #CREA UNA COLUMNA DE NOMBRE 'dup' QUE CUENTA EL NÚMERO DE FILAS CON LOS MISMOS VALORES DE LAS VARIABLES CON LA QUE SE HIZO EL GROUP_BY
+```
+
+Esta técnica utilizada para identificar filas duplicadas nos permite comprender que la tabla de datos se encuentra a nivel de parcelas, en el siguiente caso particular presentamos un productor que tiene 90 parcelas.
+
+```{r}
+df.temp <- CAR_UA2 %>% 
+    filter(dup==90) %>% 
+    select(ANIO,CCDD,CCPP,CCDI,CONGLOMERADO,NSELUA,UA,P105_N,P105_SUP_ha) %>% 
+    arrange(ANIO,CCDD,CCPP,CCDI,CONGLOMERADO,NSELUA,UA,P105_N)
+```
+
+```{r}
+#Total de hectareas del productor con 90 hectáreas
+df.temp %>% summarise(P105_SUP_ha=sum(P105_SUP_ha,na.rm = T))
+
+#Total de hectareas de todos los productores encuestados
+CAR_UA2 %>% ungroup() %>% summarise(P105_SUP_ha=sum(P105_SUP_ha,na.rm = T))
+```
+ 
+ Es importante tener en cuenta, que en el Perú distintos agricultores pueden tener distinas maneras de medir la superficie agrícola. Por ello, es necesario estandarizar estas cantidades una medida convencional como *hectáreas*. Utilizamos el siguiente código para calcular la equivalencia a hectáreas y posteriormente multiplicarlo sobre el total de superficie indicado. 
+
+ 
+```{r}
+CAR_UA1 <- CAR_UA1 %>% mutate(EQUIV_TOTAL=as.numeric(paste0(P104_EQUIV_1,".",P104_EQUIV_2)),
+                              SUP_TOTAL=as.numeric(paste0(P104_SUP_1,".",P104_SUP_2))*EQUIV_TOTAL)
+```
+
+Se puede comparar la variable creada *'SUP_TOTAL'* con la variable indicada por el INEI *'P104_SUP_ha'*. 
+
+```{r}
+sum(CAR_UA1$SUP_TOTAL,na.rm = T)
+sum(CAR_UA1$P104_SUP_ha,na.rm = T)
+``` 
+
+Esta misma metodología se utilizará para el cálculo de superficie **SEMBRADA** y superficie **COSECHADA**
+
+```{r}
+#CREAMOS LA SIGUIENTE TABLA PARA AGREGAR LA COLUMANA 'EQUIV_TOTAL' EN LAS TABLAS NECESARIAS COMO LA DE SUPERFICIE COSECHADA.
+CAR_EQUIV <- CAR_UA1 %>% select(ANIO,CCDD,CCPP,CCDI,CONGLOMERADO,NSELUA,UA,EQUIV_TOTAL)
+#-----------------*
+sup_cosechada <- sup_cosechada %>% left_join(CAR_EQUIV, 
+                                             by=c("ANIO","CCDD","CCPP","CCDI","CONGLOMERADO","NSELUA","UA"))
+#-----------------*
+sup_cosechada <- sup_cosechada %>% mutate(sup_sembrada_raw=as.numeric(paste0(P210_SUP_1,".",P210_SUP_2)),
+                                          sup_sembrada_ha=as.numeric(paste0(P210_SUP_1,".",P210_SUP_2))*EQUIV_TOTAL,
+                                          sup_cosechada_ha=as.numeric(paste0(P217_SUP_1,".",P217_SUP_2))*EQUIV_TOTAL)
+#-------------------------------------------------*
+s.cultivada <- s.cultivada %>% left_join(CAR_EQUIV, by=c("ANIO","CCDD","CCPP","CCDI","CONGLOMERADO","NSELUA","UA"))
+s.cultivada <- s.cultivada %>% mutate(SUP_CULTIVADA=as.numeric(paste0(P1206_SUP_1,".",P1206_SUP_2))*EQUIV_TOTAL)
+#-------------------------------------------------*
+uso_tierra <- uso_tierra %>% left_join(CAR_EQUIV, by=c("ANIO","CCDD","CCPP","CCDI","CONGLOMERADO","NSELUA","UA"))
+```
+Ahora realizaremos algunas estadísticas descriptivas de las covariables a analizar (antes de costruir el conjunto de datos para nuestro modelo)
+
+Analisis de la superficie cosechada y destino de los cultivos cosechados
+
+```{r}
+#----------------------------------------*
+sup_cosechada <- sup_cosechada %>% mutate(cosechara_raw       = as.numeric(paste0(P219_CANT_1,".",P219_CANT_2)),
+                                          destino_1_venta     = as.numeric(paste0(P220_1_CANT_1,".",P220_1_CANT_2)),
+                                          destino_2_consumo   = as.numeric(paste0(P220_2_ENT,".",P220_2_DEC)),
+                                          destino_3_semilla   = as.numeric(paste0(P220_3_ENT,".",P220_3_DEC)),
+                                          destino_3_semilla_autoinsumo = as.numeric(paste0(P220_3A_ENT,".",P220_3B_DEC)),
+                                          destino_3_semilla_venta      = as.numeric(paste0(P220_3B_ENT,".",P220_3B_DEC)),
+                                          destino_4_trueque   = as.numeric(paste0(P220_4_ENT,".",P220_4_DEC)),
+                                          destino_5_animales  = as.numeric(paste0(P220_5_ENT,".",P220_5_DEC)),
+                                          destino_6_derivados = as.numeric(paste0(P220_6_ENT,".",P220_6_DEC)),
+                                          destino_7_otro      = as.numeric(paste0(P220_7_ENT,".",P220_7_DEC)),
+                                          destino_8_otro      = as.numeric(paste0(P220_8_ENT,".",P220_8_DEC)),
+                                          destino_9_otro      = as.numeric(paste0(P220_9_ENT,".",P220_9_DEC)),
+                                          destino_10_otro     = as.numeric(paste0(P220_10_ENT,".",P220_10_DEC)))
+#----------------------------------------*
+#View(sup_cosechada %>% select(cosechara_raw,destino_3_semilla,starts_with("P220_3A"),starts_with("P220_3B")))
+#----------------------------------------*
+#View(sup_cosechada %>% select(cosechara_raw,starts_with("destino")))
+#----------------------------------------*
+sup_cosechada <- sup_cosechada %>% mutate(cosechara = as.numeric(paste0(P219_CANT_1,".",P219_CANT_2))*P219_EQUIV_KG,
+                                          destino_1_venta_kg=destino_1_venta*P219_EQUIV_KG*P220_1_PRE_KG,
+                                          cosecho = as.numeric(paste0(P224_CANT_1,".",P224_CANT_2))*P224_EQUIV_KG)
+#----------------*
+#View(sup_cosechada %>% filter(P220_1_VAL!=destino_1_venta_kg)%>% select(destino_1_venta,destino_1_venta_kg,))
+#----------------------------------------*
+#head(sup_cosechada %>% filter(is.na(P224_CANT_1)==F) %>% select(starts_with("P224")),10)
+#------------*
+```
+
+Construyendo tabla de datos a nivel de unidad agropecuaria
+
+```{r}
+sup_cosechada <- sup_cosechada %>% mutate(riego=ifelse(P212>1,1,0)) #RIEGO: 1 = EL CULTIVO TIENE RIEGO
+#------------------------*
+#
+#
+#------------------------*
+destino_names <- colnames(sup_cosechada %>% select(starts_with("destino")))
+#--------------------*
+ua_produccion <- sup_cosechada %>% 
+    group_by(ANIO,CCDD,CCPP,CCDI,CONGLOMERADO,NSELUA,UA) %>%
+    summarise_at(.vars = c("sup_sembrada_ha","sup_cosechada_ha","cosechara","cosecho","riego",destino_names), 
+                 .funs = sum,
+                 na.rm=T)
+#--------------------*
+ua_produccion <- ua_produccion %>% mutate(riego=ifelse(riego>0,1,0))
+#--------------------*
+ua_produccion <- ua_produccion %>% inner_join(CAR_UA1, by=c("ANIO","CCDD","CCPP","CCDI","CONGLOMERADO","NSELUA","UA"))
+#--------------------*
+ua_produccion <- ua_produccion %>%
+   mutate(across(.cols = 
+                     c(sup_sembrada_ha, sup_cosechada_ha,SUP_TOTAL), #VECTOR DE VARIABLES A MODIFICAR
+          .fns = ~case_when(.x >   0   & .x < 0.5  ~ "1. Menos de 0.5 ha",
+                            .x >=  0.5 & .x < 5    ~ "2. Entre 0.5 y menos de 5.0 ha",
+                            .x >=  5   & .x < 10   ~ "3. Entre 5.0 y menos de 10.0 ha",
+                            .x >=  10  & .x < 20   ~ "4. Entre 10.0 y menos de 20.0 ha",
+                            .x >=  20  & .x < 50   ~ "5. Entre 20.0 y menos de 50.0 ha",
+                            .x >=  50  & is.na(.x)==F  ~ "6. Mas de 50 ha",
+                             TRUE ~ as.character(NA)),
+          .names = "{.col}_cat"))
+#--------------------*
+ua_produccion <- ua_produccion %>% mutate(cosechara_t=cosechara/1000,
+                                          cosecho_t=cosecho/1000,
+                                          rendimiento=cosechara_t/sup_cosechada_ha) 
+```
+
+Análisis con datos muestrales, calculamos el rendimiento 
+```{r}
+ua_produccion %>% ungroup() %>% 
+    summarise_at(.vars = c("sup_cosechada_ha","cosechara_t"),
+                 .funs = sum,
+                 na.rm = T)
+#----------------------------------------*
+```
+
+Gráficos de la variable dependiente de nuestro modelo: Rendimiento por hectarea
+
+```{r}
+par(mfrow=c(2,2))
+hist(ua_produccion$rendimiento,main = "Histograma rendimiento")
+hist(log(ua_produccion$rendimiento),main = "Histograma del logaritmo del rendimiento")
+boxplot(ua_produccion$rendimiento,outline = T)
+boxplot(ua_produccion$rendimiento,outline = F)
+```
+
+Analisis de datos muestrales: Rendimiento por hectarea según tamaño de la UA
+
+```{r}
+ua_produccion %>% group_by(SUP_TOTAL_cat) %>%
+    summarise(sup_cosechada_ha=sum(sup_cosechada_ha,na.rm = T),
+              cosechara_t = sum(cosechara_t,na.rm = T),
+              rendimiento = cosechara_t/sup_cosechada_ha)
+```
+```{r}
+plot(ua_produccion$SUP_TOTAL,ua_produccion$rendimiento)
+plot(log(ua_produccion$SUP_TOTAL),log(ua_produccion$rendimiento))
+cor.test(ua_produccion$SUP_TOTAL,ua_produccion$rendimiento)
+```
+
+Análisis de la variable dependiente con los datos expandidos:
+```{r}
+svy_ua_produccion <- svydesign(ids = ~1, weights = ~FACTOR, data = ua_produccion)
+#----------------------------------------*
+svyby(formula =  ~cosechara_t, 
+      denominator = ~sup_cosechada_ha, 
+      by=~SUP_TOTAL_cat, 
+      design = svy_ua_produccion,
+      FUN = svyratio)
+```
+
+```{r}
+svyby(formula =  ~cosechara_t, 
+      denominator = ~sup_cosechada_ha, 
+      by=~riego, 
+      design = svy_ua_produccion,
+      FUN = svyratio)
+```
+
+```{r}
+costo_cosech <- costo_cosech %>% mutate(uso_fertlizante=ifelse(P238==1,1,0),
+                                        uso_plaguicida=ifelse(P240==1,1,0))
+#-----------------------------------------------*
+ua_cosech <- costo_cosech %>% 
+     group_by(ANIO,CCDD,CCPP,CCDI,CONGLOMERADO,NSELUA,UA) %>%
+    summarise(uso_fertlizante=max(uso_fertlizante,na.rm = T),
+              uso_plaguicida=max(uso_plaguicida,na.rm = T),
+              gasto_fertilizante=sum(P239,na.rm = T),
+              gasto_plaguicida=sum(P241,na.rm = T),
+              gasto_abono=sum(P237_VAL,na.rm = T),
+              gasto_semilla=sum(P235_VAL,na.rm = T))
+#-----------------------------------------------*
+ua_produccion <- ua_produccion %>% left_join(ua_cosech,by=c("ANIO","CCDD","CCPP","CCDI","CONGLOMERADO","NSELUA","UA"))
+```
+
+```{r}
+svy_ua_produccion <- svydesign(ids = ~1, weights = ~FACTOR, data = ua_produccion)
+
+#----------------------------------------*
+svyby(formula =  ~cosechara_t, 
+      denominator = ~sup_cosechada_ha, 
+      by=~uso_fertlizante, 
+      design = svy_ua_produccion,
+      FUN = svyratio)
+```
+```{r}
+svyby(formula =  ~cosechara_t, 
+      denominator = ~sup_cosechada_ha, 
+      by=~uso_plaguicida, 
+      design = svy_ua_produccion,
+      FUN = svyratio)
+```
+
+
+```{r}
+ua_produccion_final <- ua_produccion %>% select(ANIO,NOMBREDD,NOMBREPV,NOMBREDI,CCDD,CCPP,CCDI,CONGLOMERADO,NSELUA,UA,
+                                                rendimiento,starts_with("sup"),starts_with("gasto"),riego,
+                                                uso_fertlizante,uso_plaguicida)
+    
+costo_produccion <- costo_produccion %>% 
+    mutate(gasto_jornal=rowSums(costo_produccion %>% select(P1001A_2A_1,P1001A_2A_2,P1001A_2B_1,P1001A_2B_2),na.rm = T),
+           cantidad_jornaleros=rowSums(costo_produccion %>% select(P1001A_2A_1C,P1001A_2A_2C,P1001A_2B_1C,P1001A_2B_2C),na.rm = T),
+           gasto_maquinaria=rowSums(costo_produccion %>% select(P1001A_5A,P1001A_5B,P1001A_6A,P1001A_6B,P1001A_6C),na.rm = T),
+           gasto_riego=P1001A_3,
+           gasto_asistencia_tecnica=P1001A_4)
+
+
+ua_produccion_final <- ua_produccion_final %>% left_join(costo_produccion,by=c("ANIO","CCDD","CCPP","CCDI","CONGLOMERADO","NSELUA","UA"))
+    
+```
+
+
+
+
+
+
+

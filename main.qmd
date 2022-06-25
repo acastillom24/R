@@ -1,0 +1,32 @@
+---
+title: "Seleccionar un tamaño de muestra aleatorio por grupo"
+author: "Alín Castillo (alincastillo1995@gmail.com)"
+format: html
+editor: visual
+---
+
+Carga de bibliotecas
+
+```{r}
+library(dplyr)
+library(purrr)
+```
+
+Carga de los datos
+
+```{r}
+
+data(iris)
+```
+
+Resolución del problema
+
+```{r}
+sample_size <- 30
+groups <- c(0.7, 0.1, 0.2)
+group_size <- sample_size * groups
+
+iris %>% 
+  group_split(Species) %>% 
+  map2_dfr(group_size, ~ slice_sample(.data = .x, n = .y))
+```
