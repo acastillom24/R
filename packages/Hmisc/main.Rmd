@@ -1,0 +1,50 @@
+---
+title: "Partición de matrices con 'Hmisc'"
+author: "Alin Castillo (alincastillo1995@gmail.com)"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Instalación del paquete
+```{r, eval=FALSE}
+install.packages("Hmisc")
+```
+
+## Carga del paquete
+```{r, warning=FALSE, message=FALSE}
+library(Hmisc)
+```
+
+## Construcción de la matriz
+```{r}
+# Generación del vector
+vec <- c()
+for(i in 1:12){
+  vec <- 
+    c(vec, paste0(i, ",", c(1:12)))
+}
+
+# Generación de la matriz
+matriz <- 
+  matrix(
+    data = vec, 
+    nrow = 12, 
+    ncol = 12, 
+    byrow = T)
+```
+
+## Generación de las particiones
+- **x**: Matriz a particionar.
+- **rowsep**: La suma de filas en rowsep debe ser igual al número de filas en x.
+- **colsep**: La suma de columnas en colsep debe ser igual al número de columnas en x.
+
+```{r}
+partition.matrix(
+  x = matriz, # Matriz a particionar
+  rowsep = c(5, 5, 2),
+  colsep = c(5, 5, 2))
+```
+

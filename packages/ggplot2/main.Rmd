@@ -1,0 +1,51 @@
+---
+title: "Gráfico de tabulación"
+author: "Alin Castillo (alincastillo1995@gmail.com)"
+linkcolor: "blue"
+output: pdf_document
+---
+
+\tableofcontents
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Carga de bibliotecas
+```{r warning=FALSE}
+library(ggplot2)
+```
+
+## Carga de los datos
+```{r}
+
+# Info from:
+# https://stackoverflow.com/questions/72827813/how-to-re-create-a-crosstab-plot-showing-proportions-using-ggplot2
+
+library(ggplot2)
+df <- data.frame (col  = c("A","A","B","B"),
+                  row = c("C", "D","C","D"),
+                  val = c(4,10,29,31))
+
+df <- transform(
+  df,
+  sign_col = ifelse(col == "A", -1, 1),
+  sign_row = ifelse(row == "C", -1, 1)
+)
+
+ggplot(df) +
+  geom_rect(
+    aes(xmin = 0, xmax = sign_col * val,
+        ymin = 0, ymax = sign_row * val,
+        fill = factor(val))
+  ) +
+  geom_text(
+    aes(label = val,
+        x = 0.5 * sign_col * val,
+        y = 0.5 * sign_row * val)
+  ) +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) +
+  coord_equal()
+```
+
