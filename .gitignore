@@ -4,7 +4,7 @@
 .Ruserdata
 ShinyApp.Rproj
 README.html
-R.Rproj
+*.Rproj
 population-pyramid.Rproj
 temp.R
 temp1.R
