@@ -14,6 +14,12 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Información Adicional
+- [rdocumentation.org](https://www.rdocumentation.org/packages/Hmisc/versions/4.7-0)
+- [hbiostat.org](https://hbiostat.org/R/Hmisc/)
+- [cran.r-project.org](https://cran.r-project.org/web/packages/Hmisc/)
+- [github.com](https://github.com/harrelfe/Hmisc/commits/master)
+
 ## Instalación del paquete
 ```{r, eval=FALSE}
 install.packages("Hmisc")
