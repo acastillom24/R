@@ -1,7 +1,13 @@
 ---
 title: "Partición de matrices con 'Hmisc'"
 author: "Alin Castillo (alincastillo1995@gmail.com)"
-output: html_document
+output:
+  rmdformats::downcute:
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: false
+    highlight: tango
 ---
 
 ```{r setup, include=FALSE}
