@@ -1,0 +1,89 @@
+---
+title: "Elección del mejor modelo en función del $R^2$"
+#author: "Alin Castillo (alincastillo1995@gmail.com)"
+#date: '2022-07-16'
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Carga de librerias
+library(readxl)
+
+# Carga de los datos
+data_demanada <- 
+  read_excel(
+    path = "data/CASTILLO_20167396_P2.xlsx", 
+    sheet = "data")
+```
+
+\tableofcontents
+
+## Grafica de los datos
+```{r}
+plot(data_demanada)
+```
+
+## Ajuste de los modelos
+### Modelo lineal
+```{r}
+modelo_lineal <- 
+  lm(
+    formula = demanda ~ year, 
+    data = data_demanada)
+
+summary(modelo_lineal)
+```
+
+### Modelo exponencial
+```{r}
+modelo_exp <- 
+  lm(
+    formula = log(demanda) ~ year,
+    data = data_demanada)
+
+summary(modelo_exp)  
+```
+
+### Modelo polinomico
+Se ajustan dos modelos polinomicos, tanto de grado 2 como de grado 3
+
+#### Modelo polinomico de grado 2
+```{r}
+modelo_pol_g2 <- 
+  lm(
+    formula = demanda ~ year + I(year^2),
+    data = data_demanada)
+
+summary(modelo_pol_g2)
+```
+
+#### Modelo polinomico de grado 3
+```{r}
+modelo_pol_g3 <- 
+  lm(
+    formula = demanda ~ year + I(year^2) + I(year^3),
+    data = data_demanada)
+
+summary(modelo_pol_g3)
+```
+
+### Predicción de la demanda en función del mejor modelo
+Los mejores modelos considerando el coeficiente de determinadición son:
+
+- El modelo exponencial
+- El modelo polinomico de grado 3
+
+Por otro lado, el error standar del modelo exponencial es menor que del polinomico de grado 3, por lo tanto, el mejor modelo para la predicción de la demanda de los siguientes 10 años, sería el modelo exponencial.
+
+```{r}
+new_demanda <- 
+  data.frame(
+    year = c(11:20))
+
+predict(
+  object = modelo_exp, 
+  newdata = new_demanda)
+```
+
