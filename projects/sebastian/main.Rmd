@@ -1,0 +1,100 @@
+---
+title: "Análisis cluster en el crecimiento de la industria del comercio electrónico"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Carga de bibliotecas
+library(dplyr)
+library(purrr)
+library(fs)
+library(stringr)
+
+# Nombre de los archivos
+path_files <- 
+  dir_ls(path = "data/", glob = "*.csv")
+
+name_files <- 
+  path_files %>% 
+  str_remove_all(string = ., pattern = paste0(dirname(path_files), "/")) %>% 
+  str_remove_all(string = ., pattern = ".csv")
+
+# Carga de datos
+col_names <- c("id_producto", "nombre_producto", "id_proveedor", "id_cluster", 
+               "nombre_cluster", "id_categoria", "nombre_categoria")
+
+dbs <- 
+  map(
+    .x = path_files, 
+    .f = read.csv, 
+    header = F, 
+    sep = ",", 
+    col.names = col_names)
+
+names(dbs) <- name_files
+```
+
+# Análisis descriptivo
+
+```{r}
+pricerunner_aggregate <- 
+  dbs$pricerunner_aggregate
+
+df_aggregate <- 
+  pricerunner_aggregate %>% 
+  group_by(id_proveedor) %>% 
+  summarise(
+    num_productos = n_distinct(nombre_producto),
+    num_clusters = n_distinct(nombre_cluster),
+    num_categorias = n_distinct(nombre_categoria))
+
+resumen <- 
+  data.frame(
+    Total = map_dbl(df_aggregate, sum, na.rm = T),
+    Promedio = map_dbl(df_aggregate, mean, na.rm = T),
+    Mediana = map_dbl(df_aggregate, median, na.rm = T),
+    P25 = map_dbl(df_aggregate, quantile, probs = 0.25, na.rm = T),
+    P75 = map_dbl(df_aggregate, quantile, probs = 0.75, na.rm = T),
+    Min = map_dbl(df_aggregate, min, na.rm = T),
+    Max = map_dbl(df_aggregate, max, na.rm = T),
+    Sd = map_dbl(df_aggregate, sd, na.rm = T))
+
+resumen[-1,]
+```
+
+```{r}
+library(factoextra)
+
+df <-
+  scale(df_aggregate[-3,-1])
+
+dist.eucl <- 
+  dist(
+    x = df,
+    method = "euclidean")
+
+fviz_dist(dist.eucl)
+
+fviz_nbclust(df, kmeans, method = "wss")
+
+set.seed(123)
+
+km.res <- 
+  kmeans(
+    x = df, 
+    centers = 3, 
+    nstart = 25)
+
+fviz_cluster(
+  object = km.res, 
+  data = df,
+  palette = c("#2E9FDF", "#00EEEE", "#E7B800"),
+  ellipse.type = "euclid", # Concentration ellipse
+  star.plot = TRUE, # Add segments from centroids to items
+  repel = TRUE, # Avoid label overplotting (slow)
+  ggtheme = theme_minimal())
+
+```
+

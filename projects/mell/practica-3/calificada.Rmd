@@ -1,0 +1,96 @@
+---
+title: "calificada"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(readxl)
+library(dplyr)
+library(naniar) # vis_miss()
+library(skimr)
+
+
+library(mice)
+
+library(ggplot2)
+library(VIM)
+library(simputation)
+library(readxl)
+
+library(normalr)
+library(caret)
+library(PerformanceAnalytics)
+library(corrplot)
+```
+
+# Carga del archivo
+```{r}
+base <- 
+  read_excel(path = "df_lecturas_vino.xlsx")
+```
+
+# a)	(4 puntos) Examine la composición de datos faltantes. ¿Qué porcentaje tiene cada campo? ¿Existe alguna interacción o patrón evidente?
+
+## Examine la composición de datos faltantes
+```{r}
+base %>% vis_miss()
+```
+
+## ¿Qué porcentaje tiene cada campo?
+```{r}
+skim(base) %>% 
+  select(skim_variable, n_missing, complete_rate) %>% 
+  mutate(incomplete_rate = round((1 - complete_rate) * 100, 2)) %>% 
+  arrange(-incomplete_rate) %>% 
+  select(-complete_rate)
+```
+
+## ¿Existe alguna interacción o patrón evidente?
+Se puede observar perdida de información en presión y temperatura de la maquina 5.
+
+#b)	(2 puntos) Determine la desviación estándar, media, mínimo y máximo de la Temperatura del equipo 5 cuando hay y no hay datos faltantes en la presión del equipo 5. Comente. 
+```{r}
+base %>% 
+  select(T_E5) %>% 
+  filter(!is.na(T_E5)) %>% 
+  summarise(
+    media = mean(T_E5),
+    desves = sd(T_E5),
+    min = min(T_E5),
+    max = max(T_E5))
+```
+
+#c)	(4 puntos) Realice la imputación por la media, mediana y KNN y justifique el método a utilizar para completar los datos faltantes. Sugerencia: Si detecta algún equipo con muchas mediciones faltantes, debe eliminar todas las lecturas de ese equipo: amperaje, presión y temperatura 
+```{r}
+base_imputada <- 
+  base %>% 
+  # Más de 15%: imputación podría llevar a interpretación errónea, eliminar campo
+  select(c(-10, -15)) %>% 
+  filter(!is.na(T_E1)) %>% # 1% datos faltantes: trivial, pueden eliminarse
+  filter(!is.na(A_P5)) # 1% datos faltantes: trivial, pueden eliminarse
+
+# 1-5%: manejable con imputación por media y mediana
+base_imputada <- base_imputada %>% impute_median_at(.vars = c("A_P1", "A_P2", "A_P3", "A_P4", "T_E2"))
+
+# 5-15%: requiere métodos avanzados de imputación (KNN)
+base_imputada$T_E4 <- kNN(base_imputada)[ , "T_E4"]
+```
+#d)	(3 puntos) Examine la data usando una matriz de distribuciones y correlaciones. ¿Qué encuentra? Además calcule el valor máximo y mínimo de cada campo.
+```{r}
+base_imputada.cor <- cor(base_imputada)
+corrplot(base_imputada.cor)
+```
+
+Se puede fuertes correlaciones entre la temperatura y el amperaje.
+
+#e)	(5 puntos) Realice la normalización de todos los campos utilizando los métodos min-max, BoxCox, Z-score y Log10 y recalcule los valores mínimos y máximos de cada atributo.
+```{r}
+datos_normalizados <- normalize.decscale(base_imputada)
+```
+
+#f)	(2 puntos) En una misma gráfica coloque el boxplot de la base procesada y los boxplot normalizados y justifique el método a utilizar.
+```{r}
+
+```

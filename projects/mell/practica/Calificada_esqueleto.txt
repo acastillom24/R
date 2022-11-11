@@ -1,0 +1,59 @@
+# Carga --------------------------
+productos = read.csv('productos.csv', sep=',')
+productos
+
+productos_vendidos = read.csv('productos_vendidos.csv', sep=',')
+productos_vendidos
+
+facturas = read.csv('facturas.csv', sep=',')
+facturas
+
+# Carga de bibliotecas ----------------------------------------------------
+
+library(dplyr)
+library(ggplot2)
+
+# Desarrollo --------------------------------------
+
+# 1) Presente un histograma que permita conocer la distribución de precios de los productos
+
+productos %>% 
+  ggplot(mapping = aes(x = precio)) +
+  geom_histogram()
+
+# 2) Muestre los registros de todos los productos cuyos precios son mayores o iguales a 30. Grabe dicho resultado en un objeto llamado res_preg_2 para facilitar su posterior uso
+
+res_preg_2 <- 
+  productos %>% 
+  filter(precio > 30)
+
+res_preg_2
+
+# 3) Obtenga el promedio y desviación estándar de precios en la tabla resultado de la pregunta 2)
+
+res_preg_2 %>% 
+  summarise(
+    Promedio = mean(precio),
+    DesvStd = sqrt(var(precio)))
+
+# 4) Utilizando la columna idproducto del objeto res_preg_2 y el comando %in%, busque en la tabla productos_vendidos todos los registros que coincidan con dichos productos. Grabe dicho resultado en un objeto llamado res_preg_4 para facilitar su posterior uso.
+
+res_preg_4 <- 
+  productos_vendidos %>% 
+    filter(idproducto %in% res_preg_2$idproducto)
+
+res_preg_4
+
+# 5) Considerando el resultado de la pregunta 4), halle la suma total de unidades vendidas. Muestre dicho resultado y luego divídalo entre el total de las unidades vendidas en la tabla original productos_vendidos. ¿Qué porcentaje de ventas representan?
+
+res_preg_4 %>% summarise(Total = sum(unidades_vendidas))
+
+(res_preg_4 %>% summarise(Total = sum(unidades_vendidas)) / productos_vendidos %>% summarise(Total = sum(unidades_vendidas))) * 100
+
+# 6) Considerando el resultado de la pregunta 4), busque en la tabla facturas todos los registros que coincidan con los idfactura. Sobre este resultado, halle una tabla de frecuencias sobre los modos de pago e indique cuál es el modo de pago más popular.
+
+facturas %>% 
+  filter(idfactura %in% res_preg_4$idfactura) %>% 
+  group_by(modo_pago) %>% 
+  summarise(Frecuencia = n())
+

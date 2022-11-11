@@ -1,0 +1,177 @@
+---
+title: "Web Scraping"
+author: "Alin Castillo (alincastillo1995@gmail.com)"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::downcute:
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: false
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Bibliotecas
+```{r}
+library(purrr)
+library(RSelenium)
+```
+
+# Consideraciones
+
+- No todas las páginas, ni todas las secciones de una página son accesibles legalmente.
+- La información a la que se puede acceder en cada página viene dado por los términos de servicio (TOS), y un archivo llamado **robost.txt**.
+- Los TOS son legibles por humanos y nos dicen cuales son las reglas para el acceso automatizado, que tipo de información recolecta una página y que se hace con ella, además de varios **disclaimers legales**.
+- Podemos pensar en un robost.txt como un TOS para bots.
+
+Por convención este archivo se encuentra en:
+
+[http://website.com/robots.txt](http://website.com/robots.txt)
+
+Donde website se sustituye por la página a acceder.
+
+Ejemplo:
+
+[http://clarin.com/robots.txt](http://clarin.com/robots.txt)
+
+Que dice que todas las páginas son accesibles, salvo las que dicen **Disallow**
+
+En **R** podemos saber si una ruta tiene permisos de acceso al usar la función:
+```{r}
+robotstxt::paths_allowed()
+```
+
+Información extraída de: 
+
+- [Nuevo Espacio CECE]. (16 abr 2020). Conferencia: Web Scraping con R. Extracción automática de datos desde sitios WEB. https://www.youtube.com/watch?v=3erO9a1sC4E.
+
+# Configuraciones del driver
+
+## Cierre de los puertos abiertos
+```{r}
+system(
+  command = "taskkill /im java.exe /f", 
+  intern = FALSE, 
+  ignore.stdout = FALSE)
+```
+
+## Listar versiones de los drivers
+```{r}
+binman::list_versions(
+  appname = "geckodriver")
+
+binman::list_versions(
+  appname = "chromedriver")
+```
+
+## Parámetros del driver
+```{r}
+driver <- 
+  RSelenium::rsDriver(
+    browser = "firefox",
+    geckover = "0.31.0",
+    verbose = FALSE,
+    port = 4567L)
+```
+
+## Establecer el cliente
+```{r}
+remDr <- 
+  driver$client
+```
+
+## Abrir el cliente
+```{r}
+remDr$open()
+```
+
+## Maximizar la ventana del cliente
+```{r}
+remDr$maxWindowSize()
+```
+
+# Extracción de los datos
+
+## Creación de los xpath
+```{r}
+xpathSearch <- 
+  "//input[@id='twotabsearchtextbox']"
+```
+
+## Navegar a la ruta web
+```{r}
+url <- 
+  "https://www.amazon.com/"
+
+remDr$navigate(
+  url = url)
+```
+
+## Obtener el listado de categorias
+```{r}
+xpathCategorias <- 
+  "//select[@id='searchDropdownBox']/option"
+
+webElems <- 
+  remDr$findElements(
+    using = "xpath",
+    value = xpathCategorias)
+
+labelCategorias <- 
+  unlist(
+    map(
+      .x = webElems, 
+      .f = function(x) x$getElementText()))
+
+labelCategorias
+```
+
+## Selección de la categoria a buscar
+```{r}
+xpathListCategorias <- 
+  "//div[@id='nav-search-dropdown-card']"
+
+dropDown <- 
+  remDr$findElement(
+    using = "xpath",
+    value = xpathListCategorias)$clickElement()
+
+remDr$mouseMoveToLocation(dropDown)
+
+
+
+nombreCategoria <- 
+  "Home & Kitchen"
+
+xpathCategoria <- 
+  paste0(
+    "//select[@id='searchDropdownBox']/option[contains(text(), '",
+    nombreCategoria, 
+    "')]")
+
+remDr$findElement(
+  using = "xpath",
+  value = xpathCategoria)$clickElement()
+
+
+elemento <- 
+  remDr$findElement(
+  using = "xpath", 
+  value = xpath)
+    
+    elemento$sendKeysToElement(list(numRUC))
+
+remDr$refresh()
+
+```
+
+## Busqueda a realizar
+```{r}
+nombreBusqueda <- 
+  "coffee pots"
+```
+

@@ -1,0 +1,85 @@
+---
+title: "Prática"
+author: 
+date: "`r Sys.Date()`"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Carga de las bibliotecas
+
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+# Carga de los datos
+
+```{r}
+df_facturas = read.csv('facturas.csv', sep=',')
+df_productos = read.csv('productos.csv', sep=',')
+df_productos_vendidos = read.csv('productos_vendidos.csv', sep=',')
+df_productos_vendidos = df_productos_vendidos %>% 
+  mutate(idfactura = as.factor(idfactura),
+         idproducto = as.factor(idproducto))
+```
+
+# 1 a) Por cada cliente, halle la cantidad de facturas que generaron y ubique a quienes tengan exactamente 2 facturas. ¿Cuántos clientes son? ¿Cuáles son sus códigos de cliente?
+
+```{r}
+df_facturas %>% 
+  group_by(idcliente) %>% 
+  summarise(Frecuencia = n()) %>% 
+  filter(Frecuencia == 2)
+```
+
+Se encontraron a dos clientes que generaron dos facturas, los códigos de estos clientes son **2** y **4**.
+
+# 1 b) Por cada vendedor, halle la cantidad de facturas y ordénelos de manera ascendente según su cantidad de ventas. Reporte el resultado e indique quiénes son los 3 vendedores con mayor cantidad de facturas generadas.
+
+```{r}
+df_facturas %>% 
+  group_by(idvendedor) %>% 
+  summarise(Frecuencia = n()) %>% 
+  arrange(Frecuencia)
+```
+
+Los 3 vendedores con mayores ventas son los vendedores 5, 2 y 4, cada uno de ellos con 5, 7 y 7 ventas respectivamente.
+
+# 2 a) Mantenga todos los registros cuyo id de producto sea 2, 3 o 6. Grabe el resultado en un nuevo objeto y muestre su contenido.
+
+```{r}
+productos_vendidos <- 
+  df_productos_vendidos %>% 
+  filter(idproducto %in% c(2, 3, 6))
+
+productos_vendidos
+```
+
+# 2 b) Considerando el resultado anterior, cree uno o más histogramas que permitan conocer la distribución de la variable "unidades_vendidas", por id de producto. Muestre la(s) gráfica(s) y comente qué presentación de “unidades_vendidas” se vende con mayor frecuencia por producto.
+
+```{r}
+productos_vendidos %>% 
+  ggplot(mapping = aes(x = idproducto, y = unidades_vendidas)) +
+  geom_bar()
+
+```
+
+
+# 3 a) Halle el monto total de ingresos en unidades monetarias por producto (considere unidades vendidas y luego el precio) e indique cuáles son los 3 productos que más ingresos trajeron a la compañía.
+
+```{r}
+left_join(
+  x = df_productos_vendidos %>% mutate(idproducto = as.integer(idproducto)), 
+  y = df_productos, 
+  by = "idproducto") %>% 
+  mutate(ingresos = precio * unidades_vendidas) %>% 
+  group_by(idproducto, nombre, descripcion) %>% 
+  summarise(Monto_Total = sum(ingresos)) %>% 
+  arrange(Monto_Total)
+```
+
+Los 3 productos que más ingresos trajeron a la compañía son Pack de vino tinto de 1000ml (814.00), Pack de vino tinto de 350ml (893.75) y Pack de vino tinto de 2000ml (3410.00).

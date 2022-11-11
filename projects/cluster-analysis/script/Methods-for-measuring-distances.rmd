@@ -1,0 +1,108 @@
+---
+title: "Practical Guide to Cluster Analysis"
+author: "alin.castillo@unmsm.edu.pe"
+#date: "14/1/2022"
+output: html_document
+header-includes:
+  - \providecommand{\abs}[1]{\lvert#1\rvert} # comando para usar el valor absoluto
+  - \providecommand{\norm}[1]{\lVert#1\rVert} # comando para usar la norma
+---
+
+# Métodos para medir distancias
+
+## Métodos clásicos
+
+### Distancia Euclidiana:
+
+$$
+d_{euc}(x,y) = \sqrt{\sum_{i=1}^{n}(x_i-y_i)^{2}}
+$$
+
+### Distancia de Manhattan:
+
+$$
+d_{man}(x,y) = \sum_{i=1}^{n}|(x_i-y_i)|
+$$
+
+## Métodos basados en correlaciones
+
+### Distancia de la correlación de Pearson:
+
+$$
+d_{cor}(x,y)=1-\frac{\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i=1}^{n}(x_i-\bar{x})^{2}\sum_{i=1}^{n}(y_i-\bar{y})^{2}}}
+$$
+
+### Distancia de correlación del coseno de Eisen:
+
+Es un caso especial de la correlación de Pearson, cuando $\bar{x}$ y $\bar{y}$ son 0.
+
+$$
+d_{eisen}(x,y)=1-\frac{|\sum_{i=1}^{n}x_i y_i|}{\sqrt{\sum_{i=1}^n{x_i^2} \sum_{i=1}^n{y_i^2}}}
+$$
+
+### Distancia de correlación de Spearman:
+El metodo de correlación de Spearman calcula la correlación entre el rango de las variables $x$ y $y$.
+
+$$
+d_{spear}(x,y)=1-\frac{\sum_{i=1}^{n}(x_i^{\prime}-\bar{x}^{\prime})(y_i^{\prime}-\bar{y}^{\prime})}{\sqrt{\sum_{i=1}^{n}(x_i^{\prime}-\bar{x}^{\prime})^{2}\sum_{i=1}^{n}(y_i^{\prime}-\bar{y}^{\prime})^{2}}}
+$$
+
+donde: $x_i^{\prime}$ y $y_i^{\prime}$ son los rangos.
+
+### Distancia de correlación de Kendall:
+
+
+
+
+# Estandarización de los datos
+El objetivo es hacer que las variables sean comparables. En general, las variables se escalan para tener desviación estándar uno y media cero.
+
+$$
+\frac{x_i - center(x)}{scale(x)}
+$$
+
+donde:  
+- center(x), puede ser la media o la mediana
+- scale(x), puede ser la desviasión estándar o el rango intercuartílico.
+
+Tenga en cuenta que, cuando los datos están estandarizados, existe una relación funcional entre el coeficiente de correlación de Pearson $r(x, y)$ y la distancia euclidiana.
+
+La relación funcional puede expresarse de la siguiente manera:
+$$
+d_{euc}(x,y) = \sqrt{2m[1-r(x,y)]}
+$$
+
+Donde $x$ e $y$ son dos vectores estandarizados con media cero y longitud unitaria.
+
+# Cálculo de la matriz de distancias
+
+## Preparación de los datos
+```{r, eval = F}
+# Carga del daset USArrests
+data(USArrests)
+# Números aleatorios para seleccionar la muestra
+set.seed(2415)
+idex_sample <- sample(1:dim(USArrests)[1], 15)
+# Selección de la muestra
+df_sample <- USArrests[idex_sample, ]
+# Estandarización de variables
+df_scale <- scale(df_sample)
+```
+
+## Funciones y paquetes de R para calcular distancias entre pares de observaciones
+
+- **dist()**, del paquete **stats**, acepta solo datos númericos como entrada.
+- **get_dist()**, del paquete **factoextra**, acepta solo datos númericos como entrada, incluidos los métodos de "pearson", "kendall" y "Spearman".
+- **daisy()**, del paquete **cluster**, es capaz de manejar otros tipos de variables (nominal, ordinal, binaria simétrica). En ese caso, se hará uso del coeficiente de **Gower**.
+
+### Cálculo de la distancia euclidiana
+
+Se puede hacer uso de la función base **dist()**.
+```{r, eval = F}
+dis_euclidean <- dist(df_scale, method = "euclidean")
+```
+Tener presente que el método acepta "euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski".
+
+> *Nota:* Si queremos calcular distancias por pares entre variables, debemos comenzar transponiendo los datos para tener variables en las filas del conjunto de datos antes de usar la función **dist()**. La función **t()** se utiliza para transponer los datos.
+
+### Cálculo de distancias basadas en correlación
