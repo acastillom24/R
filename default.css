@@ -1,0 +1,343 @@
+/* SET MARGIN AND PADDING TO 0 FOR ALL ELEMENTS */
+* {
+margin: 0; padding: 0;
+}
+
+/* SET BASE FONT ATTRUBUTES */
+html, body {
+font: Georgia, "Times New Roman", Times, serif 14px/1.5em;
+color: #000;
+}
+
+/* REMOVE PADDING AND MARGIN VALUES */
+html, body, h1, h2, h3, h4, h5, h6, p, ul, ol, dl, li, dd, dt, img,
+blockquote, q, table, thead, tbody, tfoot, caption, th, tr, td, a, form,
+input, textarea, fieldset, pre
+{margin: 0; padding: 0;}
+
+/* SORT OUT HEADER FORMATTING AND SIZES */
+h1, h2, h3, h4, h5 {font-weight: bold;}
+
+h1 {font-size: 3em;}
+h2 {font-size: 1.5em;}
+h3 {font-size: 1.25em;}
+h4 {font-size: 1em;}
+h5 {font-size: 0.75em;}
+h6 {font-size: 0.5em;}
+
+/* HARMONIZE LINKS, KILL BORDER ON IMG LINKS */
+a {text-decoration: underline;}
+a:link, a:visited {color: #00f;}
+a:hover {color: #33f;}
+a:active {color: #fff;}
+a img, :link img, :visited img {border: none}
+
+/* REMOVE BROWSERS DEFAULT TABLE BORDERS */
+table {border-collapse: collapse;}
+
+/* REMOVE AUTOMATIC TOP/BOTTOM MARGINS ON NESTED LISTS */
+ul ul, ul ol, ul dir, ul menu, ul dl,
+ol ul, ol ol, ol dir, ol menu, ol dl,
+dir ul, dir ol, dir dir, dir menu, dir dl,
+menu ul, menu ol, menu dir, menu menu, menu dl,
+dl ul, dl ol, dl dir, dl menu, dl dl
+{margin-top: 0; margin-bottom: 0;}
+
+/* HARMONISE LIST-BULLET TYPE */
+ul, ol, dl {list-style-type: disc;}
+
+body {
+	background: #000000 url(images/bodybg.gif) repeat-x;
+}
+
+body, input, textarea, select {
+	font: normal .7em Arial, Verdana, Helvetica, sans-serif;
+	color: #FFFFFF;
+	margin: 0px auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin-bottom: 1em;
+	color: #FFD133;
+	text-transform: lowercase;
+}
+
+p, blockquote, ul, ol, form {
+	margin-bottom: 1.5em;
+}
+
+blockquote, ul, ol {
+	margin-left: 3em;
+}
+
+blockquote {
+	margin-right: 3em;
+	font-style: italic;
+}
+
+ul {
+	list-style-type: square;
+}
+
+a {text-decoration: none;}
+a:link, a:visited {color: #FFD133;}
+a:hover {color: #FFD133; text-decoration: underline;}
+a:active {color: #FFD133;}
+
+/* Wrapper */
+
+#wrapper {
+	margin: 0px auto;
+}
+
+/* Header */
+
+#header {
+	height: 90px;
+	margin: 0px auto;
+	position: relative;
+	width: 950px;
+}
+
+#header #logo {
+	position: absolute;
+	top: 10px;
+	left: 30px;  
+}
+
+#header h1 {
+	position: absolute;
+	top: 18px;
+	left: 100px;  
+	font-variant: small-caps;
+}
+
+#header h3 {
+	position: absolute;
+	top: 60px;
+	left: 110px;
+}
+
+#header a {
+	text-decoration: none;
+}
+
+#header:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+/* Menu */
+
+#menu
+{
+	background: #000000 url(images/menubg.gif) no-repeat;
+	height: 50px;
+	width: 950px;
+	margin: 0px auto;
+}
+
+#menu ul
+{
+	list-style: none;
+	text-align: right;
+	padding: 15px 10px 10px 0px;
+	margin: 0;
+}
+
+#menu li
+{
+	padding: 0em 1em 0em 1em;
+	display: inline;
+}
+
+#menu li a
+{
+	color: #000000;
+	font-weight: bold;
+	border-bottom: 1px dotted #000000;
+	text-decoration: none;
+	text-transform: lowercase;
+	font-size: 1.5em;
+}
+
+#menu li a.current
+{
+	border-bottom: 3px solid #000000;
+	text-decoration: none;
+}
+
+#menu li a:hover
+{
+	border-bottom: 3px solid #000000;
+	text-decoration: none;
+}
+
+/* Content */
+
+#content {
+	width: 950px;
+	background: #000000 url(images/contentbg.gif) repeat-y;
+	border-bottom: 7px solid #FFFFFF;
+	margin: 0px auto;
+}
+
+/* Blog */
+
+#blog {
+	float: right;
+	width: 700px;
+	margin: 0px auto;
+}
+
+/* Post */
+
+.post {
+	margin-bottom: 20px;
+	padding: 10px 25px 10px 25px;
+}
+
+.post .title {
+	border-bottom: 1px dotted #FFFFFF;
+}
+
+.post .title a {
+	text-decoration: none;
+	font-variant: small-caps;
+}
+
+.post .title a:hover {
+	text-decoration: underline;
+}
+
+.post .date {
+	margin-top: -34px;
+	text-align: right;
+}
+
+.post .entry {
+	padding: 0px 15px 10px 15px;
+	line-height: 1.8em;
+}
+
+.post .meta {
+	padding: 0 15px;
+	font-size: x-small;
+}
+
+.post .meta a {
+	text-decoration: underline;	
+}
+
+.post .meta a:hover {
+	text-decoration: none;	
+}
+
+/* Sidebar */
+
+#sidebar {
+	float: left;
+	width: 250px;
+	margin: 0px auto;
+}
+
+#sidebar ul {
+	list-style: none;
+	margin: 10px 30px;
+}
+
+#sidebar li {
+	margin: 0px;
+	padding: 0px;
+	margin-bottom: 30px;
+}
+
+#sidebar li ul {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+#sidebar li li {
+	line-height: 1.5em;
+	margin: 0px;
+	padding: 0px;
+	color: #97E300;
+	text-transform: lowercase;
+}
+
+#sidebar h2 {
+	height: 5px;
+}
+
+#sidebar a {
+	text-decoration: none;
+	color: #97E300;
+	text-transform: lowercase;
+}
+
+#sidebar a:hover {
+	text-decoration: underline;
+}
+
+/* Search */
+
+#search {
+}
+
+#search h2 {
+}
+
+#search form {
+}
+
+#search #inputtext1 {
+}
+
+#search #inputsubmit1 {
+}
+
+/* Archives */
+
+#archives {
+}
+
+/* Categories */
+
+#categories {
+}
+
+/* Blogroll */
+
+#blogroll {
+}
+
+/* Meta */
+
+#meta {
+}
+
+/* Footer */
+
+#footer {
+	width: 950px;
+	margin: 0px auto;
+	padding-top: 5px;
+	background: #000000;
+	color: #FFFFFF;
+}
+
+#footer p {
+	margin: 0px auto;
+	padding: 0px 10px;
+	text-align: right;
+	font-size: x-small;
+	text-transform: lowercase;
+}
+
+#footer a {
+	text-transform: lowercase;
+}
