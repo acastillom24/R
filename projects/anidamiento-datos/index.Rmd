@@ -1,5 +1,5 @@
 ---
-title: "Partición de matrices con 'Hmisc'"
+title: "Anidar y desanidar datos con 'nest' y 'unnest'"
 author: "Alin Castillo (alincastillo1995@gmail.com)"
 output:
   rmdformats::downcute:

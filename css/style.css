@@ -58,7 +58,7 @@ body, input, textarea, select {
 
 h1, h2, h3, h4, h5, h6 {
 	margin-bottom: 1em;
-	color: #FFD133;
+	color: #5692f2;
 	text-transform: lowercase;
 }
 
@@ -80,9 +80,9 @@ ul {
 }
 
 a {text-decoration: none;}
-a:link, a:visited {color: #FFD133;}
-a:hover {color: #FFD133; text-decoration: underline;}
-a:active {color: #FFD133;}
+a:link, a:visited {color: rgb(16, 125, 241);}
+a:hover {color: rgb(183, 255, 0); text-decoration: underline;}
+a:active {color: rgb(212, 255, 0);}
 
 /* Wrapper */
 
