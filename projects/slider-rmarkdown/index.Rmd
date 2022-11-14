@@ -1,0 +1,75 @@
+---
+title: "Slider de imagenes en RMarkdown"
+author: "Alin Castillo (alincastillo1995@gmail.com)"
+output:
+  html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+```
+
+## Instalación de los paquetes
+```{r, eval=FALSE}
+install.packages("dplyr")
+install.packages("ggplot2")
+```
+
+# Carga de paquetes
+```{r, warning=FALSE, message=FALSE}
+library(dplyr) # for %>% , glimpse()
+library(ggplot2) # for ggplot(), ggsave()
+```
+
+# Carga de los datos
+```{r, warning=FALSE, message=FALSE}
+data("iris")
+iris %>% glimpse()
+```
+
+# Generación y respaldo de graficas
+```{r}
+
+columnas <- names(iris)
+
+for(i in 1:4){
+  
+  vary <- columnas[i]
+  
+  iris %>% 
+    ggplot(mapping = aes(x = Species, y = .data[[vary]])) +
+    geom_boxplot(mapping = aes(color = Species))
+  
+  ggsave(
+    filename = paste0("_img/bp_", i, ".png"), 
+    width = 1280, 
+    height = 580, 
+    units = c("px"))
+}
+
+```
+
+# Generación de Sliders
+````{=html}
+```{r, echo=FALSE, results='asis'}
+xfun::file_string(file = "sliders.html")
+```
+````
+# Referencias
+## Videos
+[Scroll Snap, crea un slider sólo usando CSS](https://www.youtube.com/watch?v=uhP6OL0bwpY)  
+[J&G Proyectos Web](https://www.youtube.com/watch?v=WI0aCIEYXvw)  
+[Carrusel | HTML y CSS](https://www.youtube.com/watch?v=cKux39Y0fxw)  
+[Slider automática y manual sencillo de hacer](https://www.youtube.com/watch?v=hxRNw3quuuo)  
+[Cómo ejecutar tu página en un servidor web local - Tutorial](https://www.youtube.com/watch?v=S0MW45jXjVY)  
+[Hola JS en R Markdown](https://www.aliciaschep.com/blog/js-rmarkdown/)  
+
+## Web
+[CSS Scroll Snap](https://midu.dev/css-scroll-snap-la-solucion-definitiva-a-la-creacion-de-sliders-en-la-web/)  
+[Splide](https://splidejs.com/)  
+[web-servers](https://gist.github.com/willurd/5720255)  
+[7.10 Incluir el contenido de un archivo HTML existente](https://bookdown.org/yihui/rmarkdown-cookbook/include-html.html)  
+
+## Books
+[R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)  
+[R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)  

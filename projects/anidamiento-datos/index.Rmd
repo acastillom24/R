@@ -14,6 +14,9 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Descripción
+El anidamiento es implícitamente una operación de resumen: obtiene una fila para cada grupo definido por las columnas no anidadas. Esto es útil junto con otros resúmenes que funcionan con conjuntos de datos completos, sobre todo modelos.
+
 ## Información Adicional
 - [tidyr.tidyverse.org](https://tidyr.tidyverse.org/reference/nest.html)
 - [yuzaR Data Science](https://www.youtube.com/watch?v=tQ8dC0oLTnA)
