@@ -1,0 +1,75 @@
+---
+title: "var exportaciones y pib"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Carga de las bibliotecas
+```{r, warning=FALSE, message=FALSE}
+library(readxl)
+library(forecast)
+library(vars)
+```
+
+## Carga de los datos
+```{r}
+data_export_pi <- 
+  read_excel(path = "data/var exportaciones y pib.xlsx")
+```
+
+## Convertimos a un objeto ts
+```{r}
+ts_export_pi <- ts(data = data_export_pi[, 2:3], start = 1990, frequency = 4)
+```
+
+## Grafica
+```{r}
+ts.plot(ts_export_pi, col = c("blue", "red"))
+```
+
+## Pregunta a)
+
+### Cantidad de diferencias a realizar
+```{r}
+ndiffs(ts_export_pi)
+```
+
+### Generamos las diferencias
+```{r}
+diff_ts_export_pi <- diff(ts_export_pi)
+```
+
+### Grafica
+```{r}
+ts.plot(diff_ts_export_pi, col = c("blue", "red"))
+```
+
+
+Se puede observar, que luego de realizar un rezago, la media es constante, para ambas variables, lo cual indica que las variables son estacionarias y por tanto se conseguirian los mejores pronosticos.
+
+### Genración del modelo
+```{r}
+VARselect(diff_ts_export_pi, lag.max = 4)
+```
+
+Todos los críterios nos indican que el oreden del modelo VAR es de 1
+
+```{r}
+modelo <- VAR(diff_ts_export_pi, p = 1)
+modelo
+```
+
+## Pregunta b)
+### Estimación del modelo
+```{r}
+var.pred <- predict(modelo, n.ahead = 4, ci = 0.95)
+```
+
+### Grafica del modelo
+```{r}
+plot(var.pred)
+```
+

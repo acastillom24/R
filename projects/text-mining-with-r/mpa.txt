@@ -1,0 +1,29 @@
+1. tmax: es el número de palabras máximo por cluster. Si este número es muy grande, se puede hacer
+difícil el análisis y la interpretación de la temática presente.
+tmax = 10
+
+2. tmin: es el número mínimo de palabras por cluster. Si este número es muy pequeño, la temática que
+representa no contribuirá mucho al análisis del conocimiento presente en el corpus.
+tmin = 3
+
+3. fmin: es la frecuencia mínima de una palabra clave en el corpus.
+fmin = 3
+
+4. cmin: es el número mínimo de las co-ocurrencias entre dos palabras.
+cmin = 1
+
+
+# Matriz de Co-ocurrencias: mismas palabras dentro de un mismo texto
+# Matriz asociación: Es el número de documentos en que las palabras i y j aparecen simultaneamiente.
+
+
+Nota1: la papaya es buena para quemar calorías, ......  , son frutas la papaya, manzana .... , papaya ... 
+Nota1: papaya
+Nota1: papaya
+
+
+http://www.ugr.es/~rruizb/cognosfera/sala_de_estudio/ciencimetria_redes_conocimiento/matriz_adyacencia.htm
+http://www.ugr.es/~fccortes/curriculum/toledo.html
+https://rpubs.com/phbaroni/leer-google-drive
+https://www.doctormetrics.com/conectando-r-con-googledrive/
+http://dev.scielo.org.pe/scielo.php?script=sci_arttext&pid=S1562-47302018000200005

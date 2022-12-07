@@ -1,0 +1,20 @@
+---
+title: "Frecuencia por mes"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(tidyr)
+```
+
+```{r, warning=F, echo=F}
+load(file = "../data/Notas_0119_0719.RData")
+knitr::kable(
+Notas_0119_0719 %>% 
+  separate(col = Fecha, into = c("Day","Month","Year"), sep = "-") %>%
+  group_by(Month) %>% 
+ summarise(n = n()))
+```
+

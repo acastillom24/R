@@ -1,0 +1,3 @@
+ind1,comer,dormir,sanar,tocar
+ind2,besar,reir,conbersar,ver
+ind3,saber,toser,filtrar,silbar

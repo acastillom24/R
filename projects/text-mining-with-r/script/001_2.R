@@ -1,0 +1,85 @@
+
+# Bibliotecas -------------------------------------------------------------
+library(dplyr)
+library(tidyr)
+library(mpa)
+
+# Depuración de las notas -------------------------------------------------
+list.pc <- list()
+
+for(i in 1:19){
+  sheet.name <- paste0("Hoja", i)
+  if(i < 10){
+    nota.name <- paste0("Nota_0", i)
+  }else{
+    nota.name <- paste0("Nota_", i)
+  }
+  
+  palabra.clave <- read_excel(path = "export/TotalPalabrasClaves.xlsx",
+                               sheet = sheet.name, 
+                               col_names = F)
+  nota <- c(rep(nota.name, dim(palabra.clave)[1]))
+  pc <- tibble(nota, palabra.clave)
+  names(pc) <- c("nota", "palabra_clave")
+  
+  list.pc[i] <- list(pc)
+}
+
+data.corpus <- c()
+for(i in 1:19){
+  corpus <- list.pc[[i]][2]
+  key.word <- corpus[1,1]
+  for(j in 2:dim(corpus)[1]){
+    key.word.2 <- corpus[j,1]
+    key.word <- paste0(key.word, "/", key.word.2)
+  }
+  key.word <- paste0("/ind0/", key.word, "/")
+  data.corpus[i] <- key.word  
+}
+
+write.table(x = data.corpus, 
+            file = "export/data_corpus.txt",
+            sep = "\t",
+            quote = F,
+            row.names = F, 
+            col.names = F)
+
+save(datos, datos2, file = "dosresultados.RData")
+
+# Cargamos la data --------------------------------------------------------
+data.corpus <- leer.mpa(textfile = "export/data_corpus.txt")
+
+# creación de las matriz de asociaciones y co-ocurrencias -----------------
+mat <- matriz.mpa(leer.mpa = data.corpus, 
+                  sep.ind = "ind0",
+                  sep.pal = "/",
+                  fmin = 3, 
+                  cmin = 1)
+
+# Matriz de asociación
+View(mat[["Matriza"]])
+# Matriz de Co-ocurrencias
+View(mat[["Matrizc"]])
+# Vector de palabras
+View(mat[["Palabras"]])
+# Lexical table
+View(mat[["tl"]])
+
+# palabras y su frecuencia ------------------------------------------------
+d <- diag(mat$Matrizc)
+
+# clasificación -----------------------------------------------------------
+clas <- mpa(mat$Matriza,10,mat$Palabras)
+
+# diagrama estratégico ----------------------------------------------------
+diagram.mpa(clas, tmin = 3)
+
+# red de cada una de las clases -------------------------------------------
+for(i in 1:2){
+  windows()
+  plotmpa(i, mat$Matriza, clas)
+}
+
+plotmpa(1, mat$Matriza, clas)
+plotmpa(2, mat$Matriza, clas)
+

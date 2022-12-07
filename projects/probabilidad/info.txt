@@ -1,0 +1,13 @@
+C01. Aprendiendo a contar.
+C02. Definiendo mis eventos: Espacio muestral y eventos.
+C03. ¿Cómo hacer cálculos? Eventos y probabilidades.
+C04. ¿Hay influencias? Independencia.
+C05. Aprendiendo a pensar: Probabilidad condicional.
+C06. Nunca dar por hecho algo: Teorema de Bayes.
+C07. El salto a las matemáticas: Distribuciones y densidades.
+C08. ¿Cómo se apuesta en las cartas? Distribución binomial.
+C09. ¿Cuántos éxitos tengo en un periodo de tiempo? Distribución de Poisson.
+C10. ¿Cuánto tengo que esperar para ver un resultado? Distribución geométrica.
+C11. ¿Todo es aleatorio? Distribución uniforme.
+C12. ¿Cuánto tiempo espero? Distribución exponencial.
+C13. La más importante: Distribución normal.

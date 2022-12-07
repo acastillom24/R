@@ -1,0 +1,5 @@
+https://r4ds.had.co.nz/introduction.html
+https://jvicentem.github.io/dplyr-and-ggplot2-assignment/Lab-ggplot2.html
+https://bookdown.org/j_morales/weblinmod/02AED.html
+https://ichi.pro/es/explore-las-bibliotecas-r-para-proyectos-de-ciencia-de-datos-de-un-extremo-a-otro-198808386051932
+https://mappinggis.com/2021/05/procesamiento-masivo-de-datos-en-r/

@@ -1,0 +1,31 @@
+wordcloud2:
+  https://towardsdatascience.com/create-a-word-cloud-with-r-bde3e7422e8a
+  https://cran.r-project.org/web/packages/wordcloud2/vignettes/wordcloud.html#lettercloud-function
+
+Corpus de Referencia del Español Actual (CREA) - Listado de frecuencias:
+  http://corpus.rae.es/lfrecuencias.html
+
+
+
+https://programminghistorian.org/es/lecciones/procesamiento-basico-de-textos-en-r
+https://rpubs.com/jboscomendoza/mineria-de-textos-con-r
+
+https://quanteda.io/reference/kwic.html
+https://quanteda.io/articles/pkgdown/replication/digital-humanities.html
+https://quanteda.io/articles/pkgdown/replication/text2vec.html
+https://quanteda.io/articles/pkgdown/replication/qss.html
+https://quanteda.io/articles/pkgdown/examples/plotting.html
+https://quanteda.io/articles/pkgdown/examples/phrase.html
+https://quanteda.io/articles/pkgdown/examples/lsa.html
+https://quanteda.io/articles/pkgdown/examples/chinese.html
+https://quanteda.io/articles/pkgdown/examples/twitter.html
+
+
+https://tutorials.quanteda.io/basic-operations/tokens/kwic/
+https://www.rdocumentation.org/packages/quanteda/versions/1.5.2/topics/kwic
+https://github.com/quanteda/quanteda/blob/master/R/kwic.R
+https://methods.sagepub.com/video/keywords-in-context
+https://en.wikipedia.org/wiki/Key_Word_in_Context
+https://data.library.virginia.edu/a-beginners-guide-to-text-analysis-with-quanteda/
+https://www.librarianshipstudies.com/2017/02/keyword-in-context-kwic-indexing.html
+

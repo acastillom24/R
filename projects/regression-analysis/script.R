@@ -19,38 +19,6 @@ model1 <- lm(Petal.Length ~ Species, data = iris)
 library(stargazer)
 stargazer(model1, type = "text", single.row=TRUE)
 
-
-# Usando la base de datos storm del paquete dplyr, calcula la velocidad promedio y diámetro promedio (hu_diameter) de las tormentas declaradas huracanes por año
-
-data(dplyr::storms)
-
-storms %>% glimpse()
-
-storms %>% 
-  filter(status == "hurricane") %>% 
-  group_by(year) %>% 
-  summarise(
-    velocidad_promedio =  mean(wind, na.rm = T),
-    diametro_promedio = mean(hurricane_force_diameter, na.rm = T)) %>% 
-  arrange(year) %>% 
-  print(n = 60)
-
-# Usando la base de datos iris crea un inline code que diga cuál es la media del largo del pétalo de la especie Iris virginica
-
-data("iris")
-
-iris %>% glimpse()
-
-iris %>% 
-  filter(Species == "virginica") %>% 
-  summarise(media_largo = mean(Petal.Length, na.rm = T))
-
-# Crear dos modelos lineales para la base de datos mtcars uno para autos de cambios automáticos y uno para autos de cambios manuales basados en el peso del automóvil
-
-data("mtcars")
-
-mtcars %>% glimpse()
-
 library(dplyr) # for %>% 
 library(tidyr) # for nest()
 library(purrr) # for map()

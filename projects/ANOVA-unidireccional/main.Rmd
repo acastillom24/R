@@ -1,0 +1,18 @@
+---
+title: "One-Way ANOVA"
+author: "alin.castillo@unmsm.edu.pe"
+#date: "6/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Info from:** [appsilon.com](https://appsilon.com/anova-in-r/)
+
+Objetivo:
+
+Comparar si existe alguna relación entre dos o mas grupos.
+
+## Anova Unidireccional:
